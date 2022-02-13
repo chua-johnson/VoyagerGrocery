@@ -12,9 +12,9 @@ namespace Voyager.Test
         [TestMethod]
         public void SetProductPrice()
         {
-            var prodController = new PointOfSaleTerminal();
+            var prodController = new ProductController();
 
-            Dictionary<string,Product> prodMatrix = prodController.SetPricing();
+            Dictionary<string,Product> prodMatrix = prodController.SetPrice();
 
             Assert.IsNotNull(prodMatrix["A"].PriceMatrices);
             Assert.AreEqual("A", prodMatrix["A"].ProductCode);
@@ -24,30 +24,30 @@ namespace Voyager.Test
         [TestMethod]
         public void CheckIfProductExists()
         {
-            var prodController = new PointOfSaleTerminal();
-            Dictionary<string, Product> prodMatrix = prodController.SetPricing();
-            prodController.ScanProduct("A");
+            var prodController = new ProductController();
+            Dictionary<string, Product> prodMatrix = prodController.SetPrice();
+            prodController.AddProduct("A");
             Assert.IsTrue(prodController.ProdCodes.Contains("A"));
 
-            prodController.ScanProduct("Z");
+            prodController.AddProduct("Z");
             Assert.IsFalse(prodController.ProdCodes.Contains("Z"));
         }
 
         [TestMethod]
         public void CheckTotal_ABCDABA()
         {
-            var terminal = new PointOfSaleTerminal();
+            var terminal = new ProductController();
 
-            terminal.SetPricing();
-            terminal.ScanProduct("A");
-            terminal.ScanProduct("B");
-            terminal.ScanProduct("C");
-            terminal.ScanProduct("D");
-            terminal.ScanProduct("A");
-            terminal.ScanProduct("B");
-            terminal.ScanProduct("A");
+            terminal.SetPrice();
+            terminal.AddProduct("A");
+            terminal.AddProduct("B");
+            terminal.AddProduct("C");
+            terminal.AddProduct("D");
+            terminal.AddProduct("A");
+            terminal.AddProduct("B");
+            terminal.AddProduct("A");
 
-            decimal result = terminal.CalculateTotal();
+            decimal result = terminal.ComputeTotal();
 
             Assert.AreEqual(13.25M,result);
         }
@@ -55,18 +55,18 @@ namespace Voyager.Test
         [TestMethod]
         public void CheckTotal_CCCCCCC()
         {
-            var terminal = new PointOfSaleTerminal();
+            var terminal = new ProductController();
 
-            terminal.SetPricing();
-            terminal.ScanProduct("C");
-            terminal.ScanProduct("C");
-            terminal.ScanProduct("C");
-            terminal.ScanProduct("C");
-            terminal.ScanProduct("C");
-            terminal.ScanProduct("C");
-            terminal.ScanProduct("C");
+            terminal.SetPrice();
+            terminal.AddProduct("C");
+            terminal.AddProduct("C");
+            terminal.AddProduct("C");
+            terminal.AddProduct("C");
+            terminal.AddProduct("C");
+            terminal.AddProduct("C");
+            terminal.AddProduct("C");
 
-            decimal result = terminal.CalculateTotal();
+            decimal result = terminal.ComputeTotal();
 
             Assert.AreEqual(6.00M, result);
         }
@@ -74,15 +74,15 @@ namespace Voyager.Test
         [TestMethod]
         public void CheckTotal_ABCD()
         {
-            var terminal = new PointOfSaleTerminal();
+            var terminal = new ProductController();
 
-            terminal.SetPricing();
-            terminal.ScanProduct("A");
-            terminal.ScanProduct("B");
-            terminal.ScanProduct("C");
-            terminal.ScanProduct("D");
+            terminal.SetPrice();
+            terminal.AddProduct("A");
+            terminal.AddProduct("B");
+            terminal.AddProduct("C");
+            terminal.AddProduct("D");
 
-            decimal result = terminal.CalculateTotal();
+            decimal result = terminal.ComputeTotal();
 
             Assert.AreEqual(7.25M, result);
         }

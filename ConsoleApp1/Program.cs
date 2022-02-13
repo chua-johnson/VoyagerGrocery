@@ -1,5 +1,7 @@
 ﻿using System;
+using VoyagerProducts.ClientLibrary;
 using VoyagerProducts.Controllers;
+using VoyagerProducts.Interfacce;
 
 namespace PointOfSaleApp
 {
@@ -14,8 +16,9 @@ namespace PointOfSaleApp
         {
             try
             {
-                var terminal = new PointOfSaleTerminal();
-
+                var prodController = new ProductController();
+                IPos terminal = new PointOfSaleTerminal(prodController);
+                
                 terminal.SetPricing();
                 terminal.ScanProduct("A");
                 terminal.ScanProduct("B");
